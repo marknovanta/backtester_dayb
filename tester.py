@@ -44,8 +44,12 @@ for index, day_open in enumerate(df.Open):
         result = 'flat day'
 
     results.append(result)
+
+    # caluclate the difference between open and close
     difference = (day_close - day_open)
 
+    # classify difference by range
+    #   for positive days
     if difference > 0 and difference <= (5/10):
         differences[up5] += 1
     elif difference > (5/10) and difference <= (10/10):
@@ -57,6 +61,7 @@ for index, day_open in enumerate(df.Open):
     elif difference > (20/10):
         differences[up1] += 1
 
+    #   for negative days
     elif difference <= 0 and difference >= (-5/10):
         differences[dw1] += 1
     elif difference < (-5/10) and difference >= (-10/10):
@@ -75,6 +80,7 @@ up_days = 0
 down_days = 0
 flat_days = 0
 
+# classify days based on the type of day
 for result in results:
     if result == 'up day':
         up_days += 1
@@ -85,6 +91,7 @@ for result in results:
 
 tot_days = up_days + down_days + flat_days
 
+# print out results
 print(f'UP DAYS: {up_days} - {round((up_days/tot_days)*100, 1)}%')
 print(f'DOWN DAYS: {down_days} - {round((down_days/tot_days)*100, 1)}%')
 print(f'FLAT DAYS: {flat_days} - {round((flat_days/tot_days)*100, 1)}%')
