@@ -1,5 +1,6 @@
 import pandas as pd
 from range_classifier import classify
+from printer import print_result
 
 ticker = 'SPY'
 df = pd.read_csv(f'{ticker}.csv')
@@ -7,6 +8,8 @@ print(f'\n------------ {ticker}')
 
 results = []
 open_close_ranges = []
+open_high_ranges = []
+open_low_ranges = []
 
 for index, day_open in enumerate(df.Open):
     # get other data
@@ -31,6 +34,8 @@ for index, day_open in enumerate(df.Open):
     open_low = day_open - day_low
 
     open_close_ranges.append(open_close)
+    open_high_ranges.append(open_high)
+    open_low_ranges.append(open_low)
 
     #print(f'OPEN: {day_open} | CLOSE: {day_close} | RESULT: {result}')
 
@@ -56,12 +61,11 @@ print(f'FLAT DAYS: {flat_days} - {round((flat_days/tot_days)*100, 1)}%')
 print()
 print(f'TOT DAYS: {tot_days}\n\n')
 
-print('Closing distance from Opening\n')
 oc_ranges = classify(open_close_ranges)
-count = 0
-for key, value in oc_ranges.items():
-    print(f'{key:<15}: {value} {round((value/tot_days)*100,1)}%')
-    if count == 4:
-        print('-'*32)
-    count += 1
-print()
+oh_ranges = classify(open_high_ranges)
+ol_ranges = classify(open_low_ranges)
+
+
+print_result(oc_ranges, 'Closing distance from Opening', tot_days)
+print_result(oh_ranges, 'High distance from Opening', tot_days)
+print_result(ol_ranges, 'Low distance from Opening', tot_days)
