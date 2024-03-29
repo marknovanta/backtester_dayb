@@ -32,8 +32,11 @@ differences = {
 }
 
 for index, day_open in enumerate(df.Open):
-    # get daily close
+    # get other data
     day_close = df.Close[index]
+    day_high = df.High[index]
+    day_low = df.Low[index]
+    day_volume = df.Volume[index]
 
     # check what kind of day was
     if day_open > day_close:
